@@ -59,7 +59,10 @@
             <div class="field"><label for="contact-topic">Thema</label><select id="contact-topic" name="topic"><option>Erstgespräch / Orientierung</option><option>Kombinierte Anfrage aus Analyse</option><option>Checkliste / Digitalisierungs-Startklarheit</option><option>Checkliste / Prozess-Schmerzpunkte-Inventar</option><option>Checkliste / Datenquellen-Kompass</option><option>Checkliste / IT-Risiko-Erstcheck</option><option>Checkliste / Projekt-ROI</option><option>Checkliste / Mitarbeiter-Akzeptanz</option><option>Checkliste / Tool-Auswahl</option><option>Checkliste / Go-live und Nachbetreuung</option><option>Cloud-Transformation</option><option>Data & Analytics</option><option>Prozessautomatisierung</option><option>Informationssicherheit & Governance</option><option>Assessment / Roadmap</option><option>Betrieb / Support / Optimierung</option></select></div>
             <div class="field"><label for="contact-stage">Wo stehen Sie gerade?</label><select id="contact-stage" name="stage"><option>Problem unbekannt</option><option>Orientierung: Problem erkannt, Einstieg unklar</option><option>Vergleich: Anbieter und Optionen werden geprüft</option><option>Entscheidung: Nutzen, Aufwand und Risiko müssen klar werden</option><option>Umsetzung: Projekt soll gestartet oder begleitet werden</option><option>Nachbetreuung: Folgeprojekt, Support oder Optimierung</option></select></div>
             <div class="field full"><label for="contact-message">Nachricht</label><textarea id="contact-message" name="message" placeholder="Beschreiben Sie kurz Ausgangslage, Ziel und gewünschte Unterstützung."></textarea></div>
-            <div class="field full"><button class="btn btn-primary" type="submit">Anfrage senden</button></div>
+            <div class="field full form-actions">
+              <button class="btn btn-primary" type="submit">Anfrage senden</button>
+              <button class="btn btn-ghost" type="button" id="contact-cancel">Anfrage abbrechen</button>
+            </div>
             <p class="form-status" id="contact-status" aria-live="polite"></p>
           </div>
         </form>
