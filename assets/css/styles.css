@@ -319,6 +319,34 @@ main {
   color: var(--teal-dark);
 }
 
+.final-cta-button {
+  min-width: 310px;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.95rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(135deg, var(--teal), #049c8e);
+  color: #fff;
+  white-space: nowrap;
+  box-shadow: 0 16px 34px rgba(0, 188, 169, 0.24);
+}
+
+.final-cta-button:hover {
+  background: linear-gradient(135deg, #049c8e, var(--teal-dark));
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.final-cta-arrow {
+  display: inline-flex;
+  transform: translateY(-1px);
+  transition: transform 0.2s ease;
+}
+
+.final-cta-button:hover .final-cta-arrow {
+  transform: translate(3px, -1px);
+}
+
 .btn-ghost {
   background: transparent;
   color: var(--teal-dark);
