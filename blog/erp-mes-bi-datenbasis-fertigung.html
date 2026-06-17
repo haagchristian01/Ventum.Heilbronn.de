@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERP, MES und BI belastbar verbinden | Ventum Blog</title>
+  <meta name="description" content="ERP-, MES- und BI-Daten in der Fertigung verbinden: Systemgrenzen, Datenmodell, Qualität, Verantwortlichkeiten und Pilotarchitektur.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://ventum-it.example/blog/erp-mes-bi-datenbasis-fertigung.html">
+  <meta property="og:title" content="ERP, MES und BI belastbar verbinden">
+  <meta property="og:description" content="Ein pragmatisches Zielbild für konsistente Kennzahlen und wartbare Datenprodukte in der Fertigung.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ventum-it.example/blog/erp-mes-bi-datenbasis-fertigung.html">
+  <meta property="og:site_name" content="Ventum IT GmbH">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:image" content="https://ventum-it.example/assets/images/ventum-social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Ventum IT GmbH - IT-Beratung aus Heilbronn">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ERP, MES und BI belastbar verbinden">
+  <meta name="twitter:description" content="Ein pragmatisches Zielbild für konsistente Kennzahlen und wartbare Datenprodukte in der Fertigung.">
+  <meta name="twitter:image" content="https://ventum-it.example/assets/images/ventum-social.png">
+  <meta name="twitter:image:alt" content="Ventum IT GmbH - IT-Beratung aus Heilbronn">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260615a">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"ERP, MES und BI belastbar verbinden","datePublished":"2026-06-15","dateModified":"2026-06-15","author":{"@type":"Organization","name":"Ventum IT GmbH"},"publisher":{"@type":"Organization","name":"Ventum IT GmbH"}}</script>
+
+  <script type="application/ld+json" data-schema="breadcrumb">{"@context":"https://schema.org","itemListElement":[{"position":1,"name":"Startseite","item":"https://ventum-it.example/","@type":"ListItem"},{"position":2,"name":"Blog","item":"https://ventum-it.example/blog.html","@type":"ListItem"},{"position":3,"name":"ERP, MES und BI belastbar verbinden","item":"https://ventum-it.example/blog/erp-mes-bi-datenbasis-fertigung.html","@type":"ListItem"}],"@type":"BreadcrumbList"}</script>
+</head>
+<body data-page="blog" data-contact-path="../kontakt.html">
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+  <header class="site-header"><nav class="nav-inner" aria-label="Hauptnavigation"><a class="brand" href="../index.html"><span class="brand-mark">V</span><span class="brand-name">Ventum</span></a><button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="Navigation öffnen"><span></span><span></span><span></span></button><ul class="nav-links" data-nav-links><li><a href="../index.html" data-nav="home">Start</a></li><li><a href="../checklisten.html" data-nav="checklisten">Checklisten</a></li><li><a href="../leistungen.html" data-nav="leistungen">Leistungen</a></li><li><a href="../services.html" data-nav="services">Services</a></li><li><a href="../referenzen.html" data-nav="referenzen">Referenzen</a></li><li><a href="../blog.html" data-nav="blog">Blog</a></li><li><a class="nav-cta" href="../kontakt.html" data-nav="kontakt">Kontakt</a></li></ul></nav></header>
+  <main id="main">
+    <section class="page-hero"><div class="page-hero-inner"><div class="breadcrumb"><a href="../index.html">Start</a> / <a href="../blog.html">Blog</a> / Data & Fertigung</div><h1>ERP, MES und BI belastbar verbinden</h1><p>Wie aus getrennten Systemen eine nachvollziehbare Datenbasis für Fertigungssteuerung und Management-Reporting entsteht.</p></div></section>
+    <section class="section"><article class="section-inner article-body">
+      <div class="article-meta">Veröffentlicht am 15. Juni 2026 · Lesezeit: 8 Minuten</div>
+      <p><strong>Kurzfassung:</strong> ERP, MES und BI haben unterschiedliche Aufgaben. Probleme entstehen, wenn ein Reporting-Projekt diese Grenzen ignoriert und Geschäftslogik direkt in einzelne Auswertungen verteilt. Ein belastbares Zielbild trennt Quellsysteme, Datenaufbereitung und semantisches Modell.</p>
+
+      <h2>Die Systemrollen zuerst klären</h2>
+      <p>Das ERP führt typischerweise Aufträge, Material, Einkauf, Kosten und kaufmännische Stammdaten. Das MES beschreibt die operative Produktion, etwa Maschinenzustände, Mengen, Zeiten und Qualitätsereignisse. BI verdichtet diese Informationen für Analyse und Entscheidung. Die ISA-95-Systematik hilft, Unternehmensplanung und Produktionssteuerung fachlich voneinander abzugrenzen.</p>
+      <p>Vor jeder Schnittstelle sollte deshalb feststehen, welches System für ein Feld führend ist. Ein Liefertermin kann im ERP geplant, im MES operativ beeinflusst und im BI bewertet werden. Ohne diese Trennung entstehen widersprüchliche Zahlen, obwohl alle Systeme technisch korrekt arbeiten.</p>
+
+      <h2>Eine gemeinsame Sprache für Kennzahlen schaffen</h2>
+      <p>Begriffe wie Ausschuss, Durchlaufzeit, Anlagenverfügbarkeit oder Termintreue müssen fachlich definiert werden. Dazu gehören Formel, Granularität, Zeitbezug, Ausschlüsse und verantwortliche Rolle. Diese Definition ist wichtiger als die spätere Visualisierung.</p>
+
+      <h2>Daten in drei Qualitätsstufen aufbereiten</h2>
+      <p>Für viele Fertigungsszenarien ist ein mehrstufiges Modell sinnvoll:</p>
+      <ol class="feature-list">
+        <li><strong>Rohdaten:</strong> unveränderte Übernahme aus ERP, MES und weiteren Quellen mit Ladezeit und Herkunft.</li>
+        <li><strong>Validierte Daten:</strong> bereinigte Schlüssel, harmonisierte Zeitzonen, Dublettenregeln und dokumentierte Qualitätsprüfungen.</li>
+        <li><strong>Fachliche Datenprodukte:</strong> verständliche Fakten und Dimensionen für Aufträge, Maschinen, Artikel, Zeit und Organisation.</li>
+      </ol>
+      <p>Microsoft beschreibt dieses Prinzip als Medallion-Architektur. Für kleinere Umgebungen muss daraus kein großes Lakehouse-Projekt werden. Entscheidend ist die logische Trennung der Stufen, damit Fehler nachvollziehbar bleiben.</p>
+
+      <h2>Das BI-Modell nicht aus einer flachen Tabelle bauen</h2>
+      <p>Ein Sternschema trennt messbare Ereignisse von beschreibenden Dimensionen. In der Mitte stehen beispielsweise Produktionsmengen, Stillstände oder Qualitätsfälle; darum liegen Maschine, Artikel, Schicht, Werk und Kalender. Dieses Modell ist für Power BI leichter zu verstehen, performanter und besser wiederverwendbar als eine stetig wachsende Gesamttabelle.</p>
+
+      <h2>Datenqualität als Vertrag definieren</h2>
+      <p>Jede kritische Kennzahl braucht wenige, sichtbare Qualitätsregeln. Beispiele sind Vollständigkeit der Auftragsnummer, zulässige Zeitabweichung, eindeutige Maschinenzuordnung oder maximale Verzögerung der Quelle. Bei Regelverletzungen muss klar sein, wer entscheidet und ob das Dashboard warnt, Daten ausblendet oder einen Ersatzwert verwendet.</p>
+
+      <h2>Mit einem Entscheidungsprozess pilotieren</h2>
+      <p>Ein guter Pilot beginnt nicht mit „allen Produktionsdaten“, sondern mit einer konkreten Besprechung. Beispiel: Die tägliche Fertigungsrunde soll Terminrisiken, Ausschuss und Stillstände für eine Linie zuverlässig sehen. Dafür werden nur die nötigen Quellen, Kennzahlen und Nutzerrollen umgesetzt.</p>
+      <ul class="feature-list">
+        <li>Ein Werk oder eine Linie statt globalem Rollout.</li>
+        <li>Drei bis fünf entscheidungsrelevante Kennzahlen.</li>
+        <li>Benannte Eigentümer für Quelle, Definition und Datenqualität.</li>
+        <li>Historischer Vergleich zur Plausibilisierung.</li>
+        <li>Abnahme im realen Meeting, nicht nur im Projektteam.</li>
+      </ul>
+
+      <h2>Wann der Pilot skalierbar ist</h2>
+      <p>Skalierung ist sinnvoll, wenn Kennzahlen im Alltag genutzt werden, Abweichungen nachvollziehbar sind und der Betrieb ohne Projektteam funktioniert. Erst dann sollten weitere Linien, Werke oder Anwendungsfälle folgen. So wächst die Datenplattform aus bewährten Datenprodukten statt aus unverbundenen Dashboards.</p>
+
+      <div class="lead-band"><div><h3>Datenquellen und Kennzahlen ordnen</h3><p>Ein Datenquellen-Assessment schafft Klarheit über Systemrollen, Qualität und einen realistischen ersten BI-Pilot.</p></div><a class="btn btn-light" href="../kontakt.html?topic=Data%20%26%20Analytics">Datenprojekt anfragen</a></div>
+
+      <h2>Quellen</h2>
+      <ul class="feature-list">
+        <li><a href="https://www.isa.org/standards-and-publications/isa-standards/isa-95-standard">ISA: ISA-95 Enterprise-Control System Integration</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/fabric/onelake/onelake-medallion-lakehouse-architecture">Microsoft Learn: Medallion-Lakehouse-Architektur</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-bi/guidance/star-schema">Microsoft Learn: Sternschema für Power BI</a></li>
+      </ul>
+    </article></section>
+  </main>
+  <footer class="site-footer"><div class="footer-inner"><div class="footer-grid"><div class="footer-col"><a class="brand" href="../index.html"><span class="brand-mark">V</span><span class="brand-name">Ventum</span></a><p>Fachartikel für fundierte Digitalisierungsentscheidungen.</p></div><div class="footer-col"><h2>Seiten</h2><ul><li><a href="../leistungen.html">Leistungen</a></li><li><a href="../services.html">Services</a></li><li><a href="../loesungsfinder.html">Lösungsfinder</a></li><li><a href="../kontakt.html">Kontakt</a></li></ul></div><div class="footer-col"><h2>Wissen</h2><ul><li><a href="../referenzen.html">Referenzen</a></li><li><a href="../ueber-uns.html">Über uns</a></li><li><a href="../blog.html">Blog</a></li></ul></div><div class="footer-col"><h2>Rechtliches</h2><ul><li><a href="../impressum.html">Impressum</a></li><li><a href="../datenschutz.html">Datenschutz</a></li></ul></div></div><div class="footer-bottom"><span>© <span data-year>2026</span> Ventum IT GmbH</span><span>Heilbronn-Franken</span></div></div></footer>
+  <script src="../assets/js/main.js"></script><script src="../assets/js/contact.js"></script>
+</body>
+</html>
