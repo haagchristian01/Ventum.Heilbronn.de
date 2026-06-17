@@ -92,6 +92,10 @@
     scores[id] = (scores[id] || 0) + value;
   }
 
+  function isChecklistMode() {
+    return new URLSearchParams(window.location.search).get("modus") === "checklisten";
+  }
+
   function buildScores() {
     const scores = {};
     add(scores, "assessment-roadmap", 2);
@@ -143,7 +147,21 @@
       .map(([id, score]) => ({ id, score, ...RECOMMENDATIONS[id] }));
   }
 
+  function checklistRecommendations() {
+    const ranked = scoredRecommendations().filter((item) => item.type === "Checkliste");
+    const fallback = ["roi-vorlage", "datenquellen-kompass", "akzeptanz-check", "it-risiko-erstcheck"]
+      .map((id) => ({ id, score: 0, ...RECOMMENDATIONS[id] }));
+    const seen = new Set(ranked.map((item) => item.id));
+    const combined = [
+      ...ranked,
+      ...fallback.filter((item) => !seen.has(item.id))
+    ];
+    return combined.slice(0, ranked.length >= 3 ? 3 : 2);
+  }
+
   function recommendations() {
+    if (isChecklistMode()) return checklistRecommendations();
+
     const ranked = scoredRecommendations();
     const primary = ranked.filter((item) => item.type !== "Checkliste").slice(0, 2);
     const checklist = ranked.find((item) => item.type === "Checkliste");
@@ -181,12 +199,17 @@
     const summary = document.getElementById("finder-summary");
     if (!wrap || !summary) return;
 
-    const primaryCount = result.filter((item) => item.type !== "Checkliste").length;
-    const hasChecklist = result.some((item) => item.type === "Checkliste");
-    const primaryLabel = primaryCount === 1 ? "einen zentralen nächsten Schritt" : `${primaryCount} zentrale nächste Schritte`;
-    summary.textContent = hasChecklist
-      ? `Wir empfehlen ${primaryLabel} und eine passende Checkliste zur Vorbereitung.`
-      : `Wir empfehlen ${primaryLabel} für den Einstieg.`;
+    if (isChecklistMode()) {
+      const countLabel = result.length === 2 ? "zwei passende Checklisten" : "drei passende Checklisten";
+      summary.textContent = `Wir empfehlen ${countLabel} zur Vorbereitung Ihrer nächsten Entscheidung.`;
+    } else {
+      const primaryCount = result.filter((item) => item.type !== "Checkliste").length;
+      const hasChecklist = result.some((item) => item.type === "Checkliste");
+      const primaryLabel = primaryCount === 1 ? "einen zentralen nächsten Schritt" : `${primaryCount} zentrale nächste Schritte`;
+      summary.textContent = hasChecklist
+        ? `Wir empfehlen ${primaryLabel} und eine passende Checkliste zur Vorbereitung.`
+        : `Wir empfehlen ${primaryLabel} für den Einstieg.`;
+    }
 
     wrap.innerHTML = result.map((item, index) => `
       <article class="recommendation">
@@ -204,7 +227,34 @@
   }
 
   function buildContext() {
-    return window.VentumContact?.bundleContext(recommendationIds(), finderContext()) || {
+    const ids = recommendationIds();
+
+    if (window.VentumContact?.bundleContext) {
+      const context = window.VentumContact.bundleContext(ids, finderContext());
+
+      if (isChecklistMode()) {
+        context.title = `${ids.length} passende Checklisten`;
+        context.topic = "Checklisten-Auswahl";
+        context.source = "Checklisten-Vergleich";
+        context.message = context.message.replace(
+          "Ich möchte die folgenden empfohlenen nächsten Schritte besprechen:",
+          "Ich möchte die folgenden empfohlenen Checklisten besprechen:"
+        );
+      }
+
+      return context;
+    }
+
+    if (isChecklistMode()) {
+      return {
+        title: `${ids.length} passende Checklisten`,
+        topic: "Checklisten-Auswahl",
+        source: "Checklisten-Vergleich",
+        message: `Empfohlene Checklisten: ${recommendations().map((item) => item.title).join(", ")}\n\nAusgangslage: ${finderContext()}`
+      };
+    }
+
+    return {
       title: "Empfehlung aus dem Lösungsfinder",
       topic: "Kombinierte Anfrage aus Analyse",
       source: "Geführte Analyse",
@@ -212,9 +262,27 @@
     };
   }
 
+  function applyModeCopy() {
+    if (!isChecklistMode()) return;
+
+    const heroTitle = document.querySelector(".page-hero h1");
+    const heroText = document.querySelector(".page-hero p");
+    const resultTitle = document.querySelector(".finder-result-step h2");
+    const asideTitle = document.querySelector(".finder-aside h2");
+    const asideText = document.querySelector(".finder-aside p");
+
+    if (heroTitle) heroTitle.textContent = "Vergleichen Sie passende Checklisten.";
+    if (heroText) heroText.textContent = "Die Analyse ordnet Ausgangslage, Ziel, Datenqualität, Sicherheitsdruck und Akzeptanz ein. Am Ende erhalten Sie zwei bis drei passende Checklisten, vorbereitet für das Kontaktformular.";
+    if (resultTitle) resultTitle.textContent = "Empfohlene Checklisten";
+    if (asideTitle) asideTitle.textContent = "Nach dem Vergleich";
+    if (asideText) asideText.textContent = "Am Ende entsteht eine kurze Zusammenfassung mit den passenden Checklisten. Sie können sie direkt ins Kontaktformular übernehmen.";
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("[data-finder]");
     if (!form) return;
+
+    applyModeCopy();
 
     const steps = Array.from(form.querySelectorAll("[data-finder-step]"));
     const progress = form.querySelector("[data-finder-progress]");
@@ -262,10 +330,12 @@
 
     contact?.addEventListener("click", (event) => {
       event.preventDefault();
+
       if (window.VentumContact?.navigateToContact) {
         window.VentumContact.navigateToContact(buildContext(), "kontakt.html");
         return;
       }
+
       window.location.href = "kontakt.html";
     });
 
