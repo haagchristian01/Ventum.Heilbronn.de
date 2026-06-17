@@ -1002,6 +1002,12 @@ main {
   grid-column: 1 / -1;
 }
 
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
 label {
   font-weight: 800;
   color: var(--navy);
