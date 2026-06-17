@@ -1,9 +1,9 @@
-﻿(function () {
+(function () {
   const CONTACT_STAGES = {
     unknown: "Problem unbekannt",
     orientation: "Orientierung: Problem erkannt, Einstieg unklar",
-    comparison: "Vergleich: Anbieter und Optionen werden gepr\u00fcft",
-    decision: "Entscheidung: Nutzen, Aufwand und Risiko m\u00fcssen klar werden",
+    comparison: "Vergleich: Anbieter und Optionen werden geprüft",
+    decision: "Entscheidung: Nutzen, Aufwand und Risiko müssen klar werden",
     implementation: "Umsetzung: Projekt soll gestartet oder begleitet werden",
     aftercare: "Nachbetreuung: Folgeprojekt, Support oder Optimierung"
   };
@@ -13,13 +13,20 @@
   const CHECKLIST_DELIVERY = "Vielen Dank, Ihre Checklisten-Anfrage wurde erfolgreich erfasst. Wir melden uns zeitnah mit einer passenden Rückmeldung.";
 
   const OFFERS = {
+    "erstgespraech": {
+      title: "Erstgespräch vorbereiten",
+      topic: "Erstgespräch / Orientierung",
+      stage: CONTACT_STAGES.orientation,
+      source: "Startseite",
+      message: "Ich möchte ein unverbindliches Erstgespräch vorbereiten. Bitte melden Sie sich, damit wir Ausgangslage, Zielbild, mögliche nächste Schritte und einen passenden Einstieg gemeinsam einordnen können."
+    },
     "startklarheit": {
       title: "Digitalisierungs-Startklarheit",
       topic: "Checkliste / Digitalisierungs-Startklarheit",
       stage: CONTACT_STAGES.orientation,
       source: "Checkliste",
       delivery: "checklist",
-      message: "Ich m\u00f6chte die Checkliste Digitalisierungs-Startklarheit anfragen. Bitte senden Sie mir die Unterlage zu und melden Sie sich bei R\u00fcckfragen."
+      message: "Ich möchte die Checkliste Digitalisierungs-Startklarheit anfragen. Bitte senden Sie mir die Unterlage zu und melden Sie sich bei Rückfragen."
     },
     "prozess-inventar": {
       title: "Prozess-Schmerzpunkte-Inventar",
@@ -27,7 +34,7 @@
       stage: CONTACT_STAGES.orientation,
       source: "Checkliste",
       delivery: "checklist",
-      message: "Ich m\u00f6chte das Prozess-Schmerzpunkte-Inventar anfragen. Bitte senden Sie mir die Checkliste zur strukturierten Prozessaufnahme zu."
+      message: "Ich möchte das Prozess-Schmerzpunkte-Inventar anfragen. Bitte senden Sie mir die Checkliste zur strukturierten Prozessaufnahme zu."
     },
     "datenquellen-kompass": {
       title: "Datenquellen-Kompass",
@@ -35,7 +42,7 @@
       stage: CONTACT_STAGES.comparison,
       source: "Checkliste",
       delivery: "checklist",
-      message: "Ich m\u00f6chte den Datenquellen-Kompass anfragen. Bitte senden Sie mir die Unterlage zur Erfassung von Datenquellen, Kennzahlen und Verantwortlichkeiten zu."
+      message: "Ich möchte den Datenquellen-Kompass anfragen. Bitte senden Sie mir die Unterlage zur Erfassung von Datenquellen, Kennzahlen und Verantwortlichkeiten zu."
     },
     "it-risiko-erstcheck": {
       title: "IT-Risiko-Erstcheck",
@@ -43,7 +50,7 @@
       stage: CONTACT_STAGES.orientation,
       source: "Checkliste",
       delivery: "checklist",
-      message: "Ich m\u00f6chte den IT-Risiko-Erstcheck anfragen. Bitte senden Sie mir die Checkliste zur ersten Einordnung von Systemen, Zugriffen, Wiederanlauf und Lieferantenrisiken zu."
+      message: "Ich möchte den IT-Risiko-Erstcheck anfragen. Bitte senden Sie mir die Checkliste zur ersten Einordnung von Systemen, Zugriffen, Wiederanlauf und Lieferantenrisiken zu."
     },
     "roi-vorlage": {
       title: "Projekt-ROI-Checkliste",
@@ -51,7 +58,7 @@
       stage: CONTACT_STAGES.decision,
       source: "Checkliste",
       delivery: "checklist",
-      message: "Ich m\u00f6chte die Projekt-ROI-Checkliste anfragen. Bitte senden Sie mir die Unterlage zur Bewertung von Nutzen, Aufwand, Risiken und Erfolgskriterien zu."
+      message: "Ich möchte die Projekt-ROI-Checkliste anfragen. Bitte senden Sie mir die Unterlage zur Bewertung von Nutzen, Aufwand, Risiken und Erfolgskriterien zu."
     },
     "akzeptanz-check": {
       title: "Mitarbeiter-Akzeptanz-Check",
@@ -59,7 +66,7 @@
       stage: CONTACT_STAGES.implementation,
       source: "Checkliste",
       delivery: "checklist",
-      message: "Ich m\u00f6chte den Mitarbeiter-Akzeptanz-Check anfragen. Bitte senden Sie mir die Checkliste f\u00fcr Rollen, Schulungsbedarf und Kommunikation zu."
+      message: "Ich möchte den Mitarbeiter-Akzeptanz-Check anfragen. Bitte senden Sie mir die Checkliste für Rollen, Schulungsbedarf und Kommunikation zu."
     },
     "tool-matrix": {
       title: "Tool-Auswahl-Bewertungsmatrix",
@@ -67,7 +74,7 @@
       stage: CONTACT_STAGES.comparison,
       source: "Checkliste",
       delivery: "checklist",
-      message: "Ich m\u00f6chte die Tool-Auswahl-Bewertungsmatrix anfragen. Bitte senden Sie mir die Matrix zum Vergleich von Anbietern, Funktionen, Schnittstellen und Betriebskosten zu."
+      message: "Ich möchte die Tool-Auswahl-Bewertungsmatrix anfragen. Bitte senden Sie mir die Matrix zum Vergleich von Anbietern, Funktionen, Schnittstellen und Betriebskosten zu."
     },
     "golive-plan": {
       title: "Go-live- & Nachbetreuungsplan",
@@ -75,56 +82,56 @@
       stage: CONTACT_STAGES.aftercare,
       source: "Checkliste",
       delivery: "checklist",
-      message: "Ich m\u00f6chte den Go-live- & Nachbetreuungsplan anfragen. Bitte senden Sie mir die Checkliste f\u00fcr \u00dcbergabe, Support und Optimierung nach dem Start zu."
+      message: "Ich möchte den Go-live- & Nachbetreuungsplan anfragen. Bitte senden Sie mir die Checkliste für Übergabe, Support und Optimierung nach dem Start zu."
     },
     "cloud-transformation": {
       title: "Cloud-Transformation",
       topic: "Cloud-Transformation",
       stage: CONTACT_STAGES.implementation,
       source: "Service",
-      message: "Ich interessiere mich f\u00fcr Cloud-Transformation. Wir m\u00f6chten Zielarchitektur, Migrationspfad, Betrieb und Sicherheit f\u00fcr ausgew\u00e4hlte Workloads kl\u00e4ren."
+      message: "Ich interessiere mich für Cloud-Transformation. Wir möchten Zielarchitektur, Migrationspfad, Betrieb und Sicherheit für ausgewählte Workloads klären."
     },
     "data-analytics": {
       title: "Data & Analytics",
       topic: "Data & Analytics",
       stage: CONTACT_STAGES.decision,
       source: "Service",
-      message: "Ich interessiere mich f\u00fcr Data & Analytics. Wir m\u00f6chten Datenquellen konsolidieren, Kennzahlen vereinheitlichen und ein belastbares Dashboard oder Datenmodell aufbauen."
+      message: "Ich interessiere mich für Data & Analytics. Wir möchten Datenquellen konsolidieren, Kennzahlen vereinheitlichen und ein belastbares Dashboard oder Datenmodell aufbauen."
     },
     "process-automation": {
       title: "Prozessautomatisierung",
       topic: "Prozessautomatisierung",
       stage: CONTACT_STAGES.decision,
       source: "Service",
-      message: "Ich interessiere mich f\u00fcr Prozessautomatisierung. Wir m\u00f6chten einen wiederkehrenden Ablauf analysieren und als 8-12-Wochen-Pilot messbar verbessern."
+      message: "Ich interessiere mich für Prozessautomatisierung. Wir möchten einen wiederkehrenden Ablauf analysieren und als 8-12-Wochen-Pilot messbar verbessern."
     },
     "information-security": {
       title: "Informationssicherheit & Governance",
       topic: "Informationssicherheit & Governance",
       stage: CONTACT_STAGES.orientation,
       source: "Service",
-      message: "Ich interessiere mich f\u00fcr Informationssicherheit und Governance. Wir m\u00f6chten Risiken, Rollen, Zugriffe und Nachweise strukturiert bewerten."
+      message: "Ich interessiere mich für Informationssicherheit und Governance. Wir möchten Risiken, Rollen, Zugriffe und Nachweise strukturiert bewerten."
     },
     "assessment-roadmap": {
       title: "Assessment & Roadmap",
       topic: "Assessment / Roadmap",
       stage: CONTACT_STAGES.orientation,
       source: "Service",
-      message: "Ich interessiere mich f\u00fcr ein Assessment mit Roadmap. Wir m\u00f6chten aus einer unsicheren Ausgangslage einen priorisierten Projektfahrplan ableiten."
+      message: "Ich interessiere mich für ein Assessment mit Roadmap. Wir möchten aus einer unsicheren Ausgangslage einen priorisierten Projektfahrplan ableiten."
     },
     "training-enablement": {
       title: "Enablement & Schulung",
       topic: "Enablement / Schulung",
       stage: CONTACT_STAGES.implementation,
       source: "Service",
-      message: "Ich interessiere mich f\u00fcr Enablement und Schulung. Wir m\u00f6chten Mitarbeitende in die Einf\u00fchrung einbinden und Wissen nachhaltig \u00fcbergeben."
+      message: "Ich interessiere mich für Enablement und Schulung. Wir möchten Mitarbeitende in die Einführung einbinden und Wissen nachhaltig übergeben."
     },
     "operations-support": {
       title: "Betrieb & Support",
       topic: "Betrieb / Support / Optimierung",
       stage: CONTACT_STAGES.aftercare,
       source: "Service",
-      message: "Ich interessiere mich f\u00fcr Betrieb und Support. Wir m\u00f6chten eine bestehende L\u00f6sung stabilisieren, optimieren oder nach dem Go-live weiterentwickeln."
+      message: "Ich interessiere mich für Betrieb und Support. Wir möchten eine bestehende Lösung stabilisieren, optimieren oder nach dem Go-live weiterentwickeln."
     }
   };
 
@@ -174,6 +181,11 @@
     sessionStorage.setItem("ventumContactContext", JSON.stringify(context));
   }
 
+  function clearContext() {
+    currentContext = null;
+    sessionStorage.removeItem("ventumContactContext");
+  }
+
   function readContext() {
     const stored = sessionStorage.getItem("ventumContactContext");
     if (!stored) return null;
@@ -212,6 +224,24 @@
     }
   }
 
+  function resetContactForm(form) {
+    clearContext();
+    form?.reset();
+
+    const note = document.getElementById("contact-context-note");
+    const status = document.getElementById("contact-status");
+
+    if (note) {
+      note.style.display = "none";
+      note.textContent = "";
+    }
+
+    if (status) {
+      status.textContent = "";
+      status.className = "form-status";
+    }
+  }
+
   function contextFromQuery() {
     const params = new URLSearchParams(window.location.search);
     const topic = params.get("topic");
@@ -221,7 +251,7 @@
       topic,
       stage: params.get("stage") || CONTACT_STAGES.orientation,
       source: params.get("source") || "Website",
-      message: params.get("message") || `Ich interessiere mich f\u00fcr ${topic}. Bitte melden Sie sich f\u00fcr eine kurze Erstabstimmung.`
+      message: params.get("message") || `Ich interessiere mich für ${topic}. Bitte melden Sie sich für eine kurze Erstabstimmung.`
     };
   }
 
@@ -233,7 +263,7 @@
 
   function contactFormContext() {
     const value = (id) => document.getElementById(id)?.value?.trim() || "";
-    const topic = value("contact-topic") || "Erstgespr\u00e4ch / Orientierung";
+    const topic = value("contact-topic") || "Erstgespräch / Orientierung";
     const stage = value("contact-stage");
     const message = value("contact-message");
     const name = value("contact-name");
@@ -251,13 +281,13 @@
       email,
       size,
       message: [
-        message || "Ich m\u00f6chte ein Erstgespr\u00e4ch mit Ventum vereinbaren.",
+        message || "Ich möchte ein Erstgespräch mit Ventum vereinbaren.",
         "",
         "Angaben aus dem Formular:",
         name ? `Name: ${name}` : "Name:",
         company ? `Unternehmen: ${company}` : "Unternehmen:",
         email ? `E-Mail: ${email}` : "E-Mail:",
-        size ? `Unternehmensgr\u00f6\u00dfe: ${size}` : "",
+        size ? `Unternehmensgröße: ${size}` : "",
         stage ? `Phase: ${stage}` : ""
       ].filter(Boolean).join("\n")
     };
@@ -269,20 +299,21 @@
       topic: id,
       stage: CONTACT_STAGES.orientation,
       source: "Website",
-      message: `Ich interessiere mich f\u00fcr ${id}. Bitte melden Sie sich f\u00fcr eine kurze Erstabstimmung.`
+      message: `Ich interessiere mich für ${id}. Bitte melden Sie sich für eine kurze Erstabstimmung.`
     };
   }
 
   function bundleContext(items, finderContext) {
     const selected = items.map((id) => offerContext(id));
     const titles = selected.map((item) => item.title);
+
     return {
-      title: titles.length > 1 ? `${titles.length} empfohlene n\u00e4chste Schritte` : titles[0],
+      title: titles.length > 1 ? `${titles.length} empfohlene nächste Schritte` : titles[0],
       topic: titles.length > 1 ? "Kombinierte Anfrage aus Analyse" : selected[0]?.topic,
       stage: CONTACT_STAGES.decision,
-      source: "Gef\u00fchrte Analyse",
+      source: "Geführte Analyse",
       message: [
-        "Ich m\u00f6chte die folgenden empfohlenen n\u00e4chsten Schritte besprechen:",
+        "Ich möchte die folgenden empfohlenen nächsten Schritte besprechen:",
         ...selected.map((item) => `- ${item.title}: ${item.message}`),
         "",
         finderContext ? `Ausgangslage aus der Analyse: ${finderContext}` : ""
@@ -301,10 +332,12 @@
 
     if (document.body.getAttribute("data-page") === "kontakt") {
       applyContext(contextFromQuery() || readContext());
+
       const form = document.querySelector("[data-contact-form]");
       if (form) {
         const status = document.getElementById("contact-status");
         const submit = form.querySelector('button[type="submit"]');
+        const cancel = document.getElementById("contact-cancel");
         const submitLabel = submit?.textContent || "Anfrage senden";
 
         function setStatus(message, type) {
@@ -316,9 +349,10 @@
         form.addEventListener("submit", async (event) => {
           event.preventDefault();
           currentContext = contactFormContext();
+
           if (submit) {
             submit.disabled = true;
-            submit.textContent = "Anfrage wird erstellt...";
+            submit.textContent = "Anfrage wird gesendet...";
           }
 
           try {
@@ -340,6 +374,11 @@
             }
           }
         });
+
+        cancel?.addEventListener("click", () => {
+          resetContactForm(form);
+          showToast("Die Anfrage wurde abgebrochen.");
+        });
       }
     }
   });
@@ -348,7 +387,9 @@
     stages: CONTACT_STAGES,
     offers: OFFERS,
     saveContext,
+    clearContext,
     applyContext,
+    resetContactForm,
     navigateToContact,
     offerContext,
     bundleContext,
