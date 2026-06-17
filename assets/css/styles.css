@@ -37,6 +37,11 @@ body {
   overflow-x: hidden;
 }
 
+.final-cta-button {
+  min-width: 0;
+  width: 100%;
+}
+
 img {
   max-width: 100%;
   display: block;
