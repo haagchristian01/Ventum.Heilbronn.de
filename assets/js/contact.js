@@ -137,11 +137,63 @@
 
   let currentContext = null;
 
+  const OFFER_ALIASES = {
+    "erstgesprach": "erstgespraech",
+    "erstgespräch": "erstgespraech",
+    "erstgespraech-vorbereiten": "erstgespraech",
+    "erstgespräch-vorbereiten": "erstgespraech"
+  };
+
+  function normalizeOfferId(id) {
+    return String(id || "").trim().toLowerCase();
+  }
+
+  function resolveOfferId(id) {
+    const normalized = normalizeOfferId(id);
+    return OFFER_ALIASES[normalized] || normalized;
+  }
+
+  function readableLabel(value) {
+    const raw = String(value || "").trim();
+    const normalized = normalizeOfferId(raw);
+    const resolved = resolveOfferId(normalized);
+
+    if (OFFERS[resolved]) return OFFERS[resolved].title;
+    if (!normalized) return "Anfrage";
+    if (!/^[a-z0-9-]+$/.test(raw)) return raw;
+
+    return normalized
+      .replace(/ae/g, "ä")
+      .replace(/oe/g, "ö")
+      .replace(/ue/g, "ü")
+      .replace(/-/g, " ")
+      .replace(/\s+/g, " ")
+      .replace(/\b\w/g, (letter) => letter.toUpperCase());
+  }
+
+  function defaultMessage(topic) {
+    const label = readableLabel(topic);
+
+    if (resolveOfferId(topic) === "erstgespraech" || label.toLowerCase().includes("erstgespräch")) {
+      return "Ich möchte ein unverbindliches Erstgespräch vorbereiten. Bitte melden Sie sich, damit wir Ausgangslage, Zielbild, mögliche nächste Schritte und einen passenden Einstieg gemeinsam einordnen können.";
+    }
+
+    return `Ich möchte eine Anfrage zu ${label} stellen. Bitte melden Sie sich, damit wir Ausgangslage, Ziel und passende nächste Schritte gemeinsam einordnen können.`;
+  }
+
+  function contextNote(context) {
+    const title = readableLabel(context.title || context.topic || "Anfrage");
+    const source = readableLabel(context.source || "Kontaktformular");
+    return `Vorbereitet: ${title} (${source})`;
+  }
+
   function showToast(message) {
     const toast = document.querySelector("[data-toast]");
     if (!toast) return;
+
     toast.textContent = message;
     toast.style.display = "block";
+
     window.clearTimeout(showToast.timer);
     showToast.timer = window.setTimeout(() => {
       toast.style.display = "none";
@@ -189,6 +241,7 @@
   function readContext() {
     const stored = sessionStorage.getItem("ventumContactContext");
     if (!stored) return null;
+
     try {
       return JSON.parse(stored);
     } catch (_) {
@@ -198,16 +251,23 @@
 
   function setSelectValue(select, value) {
     if (!select || !value) return;
-    const existing = Array.from(select.options).find((option) => option.value === value || option.text === value);
+
+    const existing = Array.from(select.options).find((option) => {
+      return option.value === value || option.text === value;
+    });
+
     if (!existing) {
       select.add(new Option(value, value));
     }
+
     select.value = existing ? existing.value : value;
   }
 
   function applyContext(context) {
     if (!context) return;
+
     currentContext = context;
+
     const topic = document.getElementById("contact-topic");
     const stage = document.getElementById("contact-stage");
     const message = document.getElementById("contact-message");
@@ -215,13 +275,58 @@
 
     setSelectValue(topic, context.topic);
     setSelectValue(stage, context.stage);
+
     if (message) {
       message.value = context.message || "";
     }
+
     if (note) {
       note.style.display = "block";
-      note.textContent = `Vorauswahl: ${context.source || "Website"} - ${context.title || context.topic || "Anfrage"}`;
+      note.textContent = contextNote(context);
     }
+  }
+
+  function contextFromQuery() {
+    const params = new URLSearchParams(window.location.search);
+    const offer = params.get("offer");
+
+    if (offer) {
+      const offerData = offerContext(offer);
+
+      return {
+        ...offerData,
+        message: params.get("message") || offerData.message
+      };
+    }
+
+    const topic = params.get("topic");
+    if (!topic) return null;
+
+    const offerFromTopic = offerContext(topic);
+
+    if (OFFERS[resolveOfferId(topic)]) {
+      return {
+        ...offerFromTopic,
+        message: params.get("message") || offerFromTopic.message
+      };
+    }
+
+    const label = readableLabel(topic);
+
+    return {
+      title: label,
+      topic: label,
+      stage: params.get("stage") || CONTACT_STAGES.orientation,
+      source: params.get("source") || "Kontaktformular",
+      message: params.get("message") || defaultMessage(label)
+    };
+  }
+
+  function navigateToContact(context, path) {
+    saveContext(context);
+
+    const target = path || document.body.getAttribute("data-contact-path") || "kontakt.html";
+    window.location.href = target;
   }
 
   function resetContactForm(form) {
@@ -242,27 +347,9 @@
     }
   }
 
-  function contextFromQuery() {
-    const params = new URLSearchParams(window.location.search);
-    const topic = params.get("topic");
-    if (!topic) return null;
-    return {
-      title: topic,
-      topic,
-      stage: params.get("stage") || CONTACT_STAGES.orientation,
-      source: params.get("source") || "Website",
-      message: params.get("message") || `Ich interessiere mich für ${topic}. Bitte melden Sie sich für eine kurze Erstabstimmung.`
-    };
-  }
-
-  function navigateToContact(context, path) {
-    saveContext(context);
-    const target = path || document.body.getAttribute("data-contact-path") || "kontakt.html";
-    window.location.href = target;
-  }
-
   function contactFormContext() {
     const value = (id) => document.getElementById(id)?.value?.trim() || "";
+
     const topic = value("contact-topic") || "Erstgespräch / Orientierung";
     const stage = value("contact-stage");
     const message = value("contact-message");
@@ -294,12 +381,15 @@
   }
 
   function offerContext(id) {
-    return OFFERS[id] || {
-      title: id,
-      topic: id,
+    const resolved = resolveOfferId(id);
+    const label = readableLabel(id);
+
+    return OFFERS[resolved] || {
+      title: label,
+      topic: label,
       stage: CONTACT_STAGES.orientation,
-      source: "Website",
-      message: `Ich interessiere mich für ${id}. Bitte melden Sie sich für eine kurze Erstabstimmung.`
+      source: "Kontaktformular",
+      message: defaultMessage(label)
     };
   }
 
@@ -325,6 +415,7 @@
     document.querySelectorAll("[data-contact-offer]").forEach((el) => {
       el.addEventListener("click", (event) => {
         event.preventDefault();
+
         const context = offerContext(el.getAttribute("data-contact-offer"));
         navigateToContact(context, el.getAttribute("data-contact-path"));
       });
@@ -334,6 +425,7 @@
       applyContext(contextFromQuery() || readContext());
 
       const form = document.querySelector("[data-contact-form]");
+
       if (form) {
         const status = document.getElementById("contact-status");
         const submit = form.querySelector('button[type="submit"]');
@@ -342,12 +434,14 @@
 
         function setStatus(message, type) {
           if (!status) return;
+
           status.textContent = message;
           status.className = `form-status is-${type}`;
         }
 
         form.addEventListener("submit", async (event) => {
           event.preventDefault();
+
           currentContext = contactFormContext();
 
           if (submit) {
@@ -357,6 +451,7 @@
 
           try {
             await sendContactForm(currentContext);
+
             const message = currentContext?.delivery === "checklist" || currentContext?.source === "Checkliste"
               ? CHECKLIST_DELIVERY
               : SUCCESS_MESSAGE;
@@ -365,6 +460,7 @@
             showToast(message);
           } catch (error) {
             console.error("Kontaktanfrage konnte nicht gesendet werden.", error);
+
             setStatus("Die Anfrage konnte nicht gesendet werden. Bitte prüfen Sie Ihre Eingaben und versuchen Sie es erneut.", "error");
             showToast("Die Anfrage konnte nicht gesendet werden.");
           } finally {
